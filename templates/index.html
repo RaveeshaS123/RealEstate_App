@@ -1,0 +1,111 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real Estate Price Predictor</title>
+<script src="https://www.google.com/search?q=https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<div class="container mx-auto p-8 bg-white rounded-xl shadow-2xl">
+<h1 class="text-4xl font-extrabold text-center text-gray-800 mb-6">Property Price Prediction</h1>
+<p class="text-center text-gray-500 mb-8">Enter the details below to get a price estimate.</p>
+
+    <form action="/" method="post" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="location" class="block text-sm font-medium text-gray-700">Suburb</label>
+                <select id="location" name="location" class="form-input">
+                    {% for suburb in suburbs %}
+                    <option value="{{ suburb }}" {% if suburb == 'Fitzroy North' %}selected{% endif %}>{{ suburb }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="property_type" class="block text-sm font-medium text-gray-700">Property Type</label>
+                <select id="property_type" name="property_type" class="form-input">
+                    {% for p_type in property_types %}
+                    <option value="{{ p_type }}" {% if p_type == 'House' %}selected{% endif %}>{{ p_type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="bedrooms" class="block text-sm font-medium text-gray-700">No of Bedrooms</label>
+                <input type="number" id="bedrooms" name="bedrooms" class="form-input">
+            </div>
+            
+            <div>
+                <label for="bathrooms" class="block text-sm font-medium text-gray-700">No of Bathrooms</label>
+                <input type="number" id="bathrooms" name="bathrooms" class="form-input">
+            </div>
+
+            <div>
+                <label for="parking" class="block text-sm font-medium text-gray-700">No of Parking Spaces</label>
+                <input type="number" id="parking" name="parking" class="form-input">
+            </div>
+
+            <div>
+                <label for="land_size" class="block text-sm font-medium text-gray-700">Land Size (m²)</label>
+                <input type="number" id="land_size" name="land_size" class="form-input">
+            </div>
+
+            <div>
+                <label for="year_built" class="block text-sm font-medium text-gray-700">Year Built</label>
+                <input type="number" id="year_built" name="year_built" class="form-input">
+            </div>
+
+            <div>
+                <label for="first_sold_year" class="block text-sm font-medium text-gray-700">First Sold Year</label>
+                <input type="number" id="first_sold_year" name="first_sold_year"  class="form-input">
+            </div>
+
+            <div>
+                <label for="primary_schools" class="block text-sm font-medium text-gray-700">Primary Schools (within 1km)</label>
+                <input type="number" id="primary_schools" name="primary_schools" class="form-input">
+            </div>
+            
+            <div>
+                <label for="secondary_schools" class="block text-sm font-medium text-gray-700">Secondary Schools (within 1km)</label>
+                <input type="number" id="secondary_schools" name="secondary_schools" class="form-input">
+            </div>
+            <div>
+               <label for="agent" class="block text-sm font-medium text-gray-700">Agent:</label>
+               <select id="agent" name="agent" class="form-input">
+                   {% for agent in agents %}
+                      <option value="{{ agent }}">{{ agent }}</option>
+                   {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="sale_date" class="block text-sm font-medium text-gray-700">Sale Date:</label>
+                <input type="date" id="sale_date" name="sale_date" required class="form-input">
+            </div>
+        </div>
+
+        <div class="flex justify-center mt-6">
+            <button type="submit" class="btn-predict">
+                Predict Price
+            </button>
+        </div>
+    </form>
+    
+    {% if prediction %}
+    <div class="mt-8 p-6 bg-indigo-50 rounded-xl border-l-4 border-indigo-500 shadow-inner">
+        <h3 class="text-2xl font-bold text-gray-800 text-center mb-2">Predicted Price:</h3>
+        <p class="text-4xl font-extrabold text-indigo-600 text-center">
+                {{ prediction }}
+        </p>
+    </div>
+    {% endif %}
+
+    <footer class="mt-10 text-center text-gray-400 text-sm">
+        <p>Powered by a XGBoost regressor Model</p>
+    </footer>
+</div>
+
+</body>
+</html>
